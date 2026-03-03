@@ -46,47 +46,16 @@
 // Шаг 1. Создание переменных
 // let task = 'Рандомная задача'
 const taskArray = []
-const completedTasks = []
 let completedTaskCount = 0
-
-
-const task = {
-  title: "Купить продукты",
-  description: "Молоко, хлеб, яйца",
-  isCompleted: false,
-  createdDate: new Date(),
-  completedDate: null
-}
-
-const task1 = {
-  title: "Купить продукты1",
-  description: "Молоко, хлеб, яйца",
-  isCompleted: false,
-  createdDate: new Date(),
-  completedDate: null
-}
-
-const task2 = {
-  title: "Купить продукты2",
-  description: "Молоко, хлеб, яйца",
-  isCompleted: false,
-  createdDate: new Date(),
-  completedDate: null
-}
-
-
-
 
 // Шаг 2. Функция для отображения задачи
 // const showTask = () => task === '' ? 'Задача отсутствует' : task
 
-function showTask(taskArray) {
-  taskArray.forEach(element => {
-    console.log(Object.keys(element))
-  })
-}
-
-
+// function showTask(taskArray) {
+//   taskArray.forEach(element => {
+//     console.log(Object.keys(element))
+//   })
+// }
 
 
 
@@ -103,16 +72,38 @@ function showTask(taskArray) {
 //   console.log(task)
 // }
 
-function setTask(task, task1, task2) {
-  taskArray.push(task, task1, task2)
+// function setTask(task, task1, task2) {
+//   taskArray.push(task, task1, task2)
+// }
+
+// setTask(task, task1, task2)
+
+let IdCount = 1
+
+function setTask(title, description) {
+  const task = {
+    id: IdCount++,
+    title,
+    description,
+    isCompleted: false,
+    createdDate: new Date(),
+    completedDate: null
+  }
+  taskArray.push(task)
 }
 
-setTask(task, task1, task2)
-// console.log(showTask())
+setTask('Купить продукты', 'Купить хлеб')
+setTask('Купить продукты1', 'Купить хлеб1')
+setTask('Купить продукты2', 'Купить хлеб2')
 
 
-// console.log(showTask(taskArray))
 
+function showTasks(tasks) {
+  tasks.forEach(task => {
+    // console.log(task.id, task.title, task.description)
+  })
+}
+console.log(showTasks(taskArray))
 
 
 
@@ -129,21 +120,18 @@ setTask(task, task1, task2)
 // }
 
 
-function completeTask(taskArray) {
-  taskArray[1].isCompleted = true
-  taskArray[1].completedDate = new Date(new Date().getTime() + 3 * 60 * 60 * 1000)
+// function completeTask(taskArray) {
+function completeTask(id) {
+  const task = taskArray.find(item => item.id === id)
 
-  completedTasks.push(taskArray[1])
-
-  completedTaskCount++
+  if (task) {
+    task.isCompleted = true
+    task.completedDate = new Date(new Date().getTime() + 3 * 60 * 60 * 1000)
+    completedTaskCount++
+  }
 }
-
-
-completeTask(taskArray)
-// console.log('Выполнено задач:', completedTaskCount)
-// console.log(showTask())
-
-
+completeTask(2)
+console.log('Выполнено задач:', completedTaskCount)
 
 
 
@@ -157,11 +145,8 @@ completeTask(taskArray)
 //   task = ''
 // }
 
-
 function deleteTask(taskArray) {
-
   for (let i = taskArray.length - 1; i >= 0; i--) {
-
     if (taskArray[i].isCompleted === false) {
       const answer = confirm('Таска ещё не выполнена, удалить?');
 
@@ -175,24 +160,16 @@ function deleteTask(taskArray) {
       taskArray.splice(i, 1)
       console.log('Задача удалена');
     }
-
-
   }
-
-  // console.log(taskArray)
-
 }
-
-
 deleteTask(taskArray)
 // console.log(showTask())
-
 
 
 
 function clearTasks(taskArray) {
   taskArray.length = 0
 }
-clearTasks(taskArray)
+// clearTasks(taskArray)
 
-// console.log(taskArray)
+console.log(taskArray)
