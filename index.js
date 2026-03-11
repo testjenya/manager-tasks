@@ -145,7 +145,23 @@ console.log('Выполнено задач:', completedTaskCount)
 //   task = ''
 // }
 
-function deleteTask(taskArray) {
+
+
+function deleteTask(id) {
+  const index = taskArray.findIndex(task => task.id === id)
+
+  if (index != -1) {
+    taskArray.splice(index, 1)
+    console.log('Задача удалена')
+  } else {
+    console.log('Задача не найдена')
+  }
+}
+deleteTask(2)
+
+
+
+function clearTasks(taskArray) {
   for (let i = taskArray.length - 1; i >= 0; i--) {
     if (taskArray[i].isCompleted === false) {
       const answer = confirm('Таска ещё не выполнена, удалить?');
@@ -161,15 +177,10 @@ function deleteTask(taskArray) {
       console.log('Задача удалена');
     }
   }
+
+  // taskArray.length = 0
 }
-deleteTask(taskArray)
-// console.log(showTask())
 
-
-
-function clearTasks(taskArray) {
-  taskArray.length = 0
-}
-// clearTasks(taskArray)
+clearTasks(taskArray)
 
 console.log(taskArray)
