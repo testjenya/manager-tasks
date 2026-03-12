@@ -2,7 +2,7 @@ const taskArray = []
 let completedTaskCount = 0
 let IdCount = 1
 
-function setTask(title, description) {
+function addTask(title, description) {
   const task = {
     id: IdCount++,
     title,
@@ -14,9 +14,9 @@ function setTask(title, description) {
   taskArray.push(task)
 }
 
-setTask('Купить продукты', 'Купить хлеб')
-setTask('Купить продукты1', 'Купить хлеб1')
-setTask('Купить продукты2', 'Купить хлеб2')
+addTask('Купить продукты', 'Купить хлеб')
+addTask('Купить продукты1', 'Купить хлеб1')
+addTask('Купить продукты2', 'Купить хлеб2')
 
 
 
@@ -49,7 +49,7 @@ deleteTask(2)
 
 
 
-function clearTasks(taskArray) {
+function clearTasks() {
   for (let i = taskArray.length - 1; i >= 0; i--) {
     if (taskArray[i].isCompleted === false) {
       const answer = confirm('Таска ещё не выполнена, удалить?');
