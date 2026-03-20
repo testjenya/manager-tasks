@@ -1,167 +1,56 @@
-// Этап 2: Работа с одной задачей
-
-// Шаг 1. Создание переменных
-
-// - Создать переменную task и присвоить ей строковое значение — описание задачи.
-// - Создать переменную completedTaskCount и присвоить ей начальное значение.
-
-// Шаг 2. Функция для отображения задачи
-
-// - Создать функцию showTask(), которая будет выводить задачу в консоль.
-// - Если task пустая строка, выводить сообщение "Задача отсутствует".
-// - Если задача есть, выводить её описание.
-
-// Шаг 3. Функция для добавления задачи
-
-// - Создать функцию setTask(taskDescription), которая принимает описание задачи и записывает его в переменную task.
-// - Если уже есть невыполненная задача, вывести сообщение "Не могу добавить задачу, завершите или удалите предыдущую" и не перезаписывать задачу.
-
-
-
-
-// Шаг 4. Функция для завершения задачи
-
-// - Создать функцию completeTask(), которая:
-//   - Удаляет текущее описание задачи
-//   - Увеличивает счётчик completedTaskCount на 1
-//   - Если задачи нет, вывести соответствующее сообщение.
-
-// Шаг 5. Функция для удаления задачи
-
-// - Создать функцию deleteTask(), которая удаляет текущее описание задачи.
-// - Если задачи нет, вывести соответствующее сообщение.
-
-// Дополнительные условия
-
-// - Все функции должны корректно обрабатывать пустые значения задачи.
-// - При необходимости использовать логические операторы и условные конструкции.
-// - Все переменные и функции должны быть объявлены с использованием подходящего способа объявления(let, const, function).
-
-
-
-
-
-// Этап 2. Работа с одной задачей
-
-// Шаг 1. Создание переменных
-// let task = 'Рандомная задача'
 const taskArray = []
-const completedTasks = []
 let completedTaskCount = 0
+let IdCount = 1
 
-
-const task = {
-  title: "Купить продукты",
-  description: "Молоко, хлеб, яйца",
-  isCompleted: false,
-  createdDate: new Date(),
-  completedDate: null
+function addTask(title, description) {
+  const task = {
+    id: IdCount++,
+    title,
+    description,
+    isCompleted: false,
+    createdDate: new Date(),
+    completedDate: null
+  }
+  taskArray.push(task)
 }
 
-const task1 = {
-  title: "Купить продукты1",
-  description: "Молоко, хлеб, яйца",
-  isCompleted: false,
-  createdDate: new Date(),
-  completedDate: null
+addTask('Купить продукты', 'Купить хлеб')
+addTask('Купить продукты1', 'Купить хлеб1')
+addTask('Купить продукты2', 'Купить хлеб2')
+
+
+
+function completeTask(id) {
+  const task = taskArray.find(item => item.id === id)
+
+  if (task) {
+    task.isCompleted = true
+    task.completedDate = new Date(new Date().getTime() + 3 * 60 * 60 * 1000)
+    completedTaskCount++
+  }
 }
+completeTask(2)
 
-const task2 = {
-  title: "Купить продукты2",
-  description: "Молоко, хлеб, яйца",
-  isCompleted: false,
-  createdDate: new Date(),
-  completedDate: null
+console.log('Выполнено задач:', completedTaskCount)
+
+
+
+function deleteTask(id) {
+  const index = taskArray.findIndex(task => task.id === id)
+
+  if (index != -1) {
+    taskArray.splice(index, 1)
+    console.log('Задача удалена')
+  } else {
+    console.log('Задача не найдена')
+  }
 }
+deleteTask(2)
 
 
 
-
-// Шаг 2. Функция для отображения задачи
-// const showTask = () => task === '' ? 'Задача отсутствует' : task
-
-function showTask(taskArray) {
-  taskArray.forEach(element => {
-    console.log(Object.keys(element))
-  })
-}
-
-
-
-
-
-
-// Шаг 3. Функция для добавления задачи
-// function setTask(taskDescription) {
-//   if (task !== '') {
-//     console.log('Не могу добавить задачу, завершите или удалите предыдущую')
-//     return
-//   }
-
-//   task = taskDescription
-
-//   console.log(task)
-// }
-
-function setTask(task, task1, task2) {
-  taskArray.push(task, task1, task2)
-}
-
-setTask(task, task1, task2)
-// console.log(showTask())
-
-
-// console.log(showTask(taskArray))
-
-
-
-
-
-// Шаг 4. Функция для завершения задачи
-// function completeTask() {
-//   if (task === '') {
-//     console.log('Задачи нет, нечего завершать')
-//     return
-//   }
-
-//   task = ''
-//   completedTaskCount += 1
-// }
-
-
-function completeTask(taskArray) {
-  taskArray[1].isCompleted = true
-  taskArray[1].completedDate = new Date(new Date().getTime() + 3 * 60 * 60 * 1000)
-
-  completedTasks.push(taskArray[1])
-
-  completedTaskCount++
-}
-
-
-completeTask(taskArray)
-// console.log('Выполнено задач:', completedTaskCount)
-// console.log(showTask())
-
-
-
-
-
-// Шаг 5. Функция для удаления задачи
-// function deleteTask() {
-//   if (task === '') {
-//     console.log('Задачи нет, удалять нечего')
-//     return
-//   }
-
-//   task = ''
-// }
-
-
-function deleteTask(taskArray) {
-
+function clearTasks() {
   for (let i = taskArray.length - 1; i >= 0; i--) {
-
     if (taskArray[i].isCompleted === false) {
       const answer = confirm('Таска ещё не выполнена, удалить?');
 
@@ -175,24 +64,9 @@ function deleteTask(taskArray) {
       taskArray.splice(i, 1)
       console.log('Задача удалена');
     }
-
-
   }
-
-  // console.log(taskArray)
-
 }
 
-
-deleteTask(taskArray)
-// console.log(showTask())
-
-
-
-
-function clearTasks(taskArray) {
-  taskArray.length = 0
-}
 clearTasks(taskArray)
 
-// console.log(taskArray)
+console.log(taskArray)
