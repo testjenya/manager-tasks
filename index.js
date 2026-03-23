@@ -29,7 +29,7 @@ function completeTask(id) {
   }
 }
 completeTask(2)
-
+console.log(taskArray)
 // console.log('Выполнено задач:', completedTaskCount)
 
 
@@ -103,7 +103,7 @@ function getTasksByDateRange(startDate, endDate, isCompleted = false) {
     }
   })
 }
-// console.log(getTasksByDateRange(new Date('2026-03-20T09:15:00'), new Date('2026-03-20T09:15:00')))
+// console.log(getTasksByDateRange())
 // console.log(taskArray)
 
 
