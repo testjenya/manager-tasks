@@ -13,63 +13,51 @@ function addTask(title, description, createdDate) {
   }
   taskArray.push(task)
 }
-
-addTask('Купить продукты', 'Купить хлеб', new Date('2026-03-20T09:00:00'))
-addTask('Купить продукты1', 'Купить хлеб1', new Date('2026-03-17T09:05:00'))
-addTask('Купить продукты2', 'Купить хлеб2', new Date('2026-03-10T09:10:00'))
+addTask('Купить продукты', 'Купить хлеб', new Date('2026-03-20T09:00:00Z'))
+addTask('Купить продукты1', 'Купить хлеб1', new Date('2026-03-17T09:05:00Z'))
+addTask('Купить продукты2', 'Купить хлеб2', new Date('2026-03-10T09:10:00Z'))
 
 
 function completeTask(id) {
   const task = taskArray.find(item => item.id === id)
 
-  if (task) {
-    task.isCompleted = true
-    task.completedDate = new Date(new Date().getTime() + 3 * 60 * 60 * 1000)
-    completedTaskCount++
-  }
+  if (!task) return
+
+  task.isCompleted = true
+  task.completedDate = new Date().toISOString()
+  completedTaskCount++
+
 }
 completeTask(2)
-console.log(taskArray)
+// console.log(taskArray)
 // console.log('Выполнено задач:', completedTaskCount)
 
 
 
 function deleteTask(id) {
   const index = taskArray.findIndex(task => task.id === id)
+  if (index === -1) return console.log('Задача не найдена')
 
-  if (index != -1) {
-    taskArray.splice(index, 1)
-    console.log('Задача удалена')
-  } else {
-    console.log('Задача не найдена')
+  const task = taskArray[index]
+
+  if (!task.isCompleted) {
+    const answer = confirm('Задача ещё не выполнена. Удалить?')
+    if (!answer) return console.log('Задача оставлена')
   }
+
+  taskArray.splice(index, 1)
+  console.log('Задача удалена')
 }
-// deleteTask(2)
+// deleteTask(1)
 
 
 
 function clearTasks() {
-  for (let i = taskArray.length - 1; i >= 0; i--) {
-    if (taskArray[i].isCompleted === false) {
-      const answer = confirm('Таска ещё не выполнена, удалить?');
-
-      if (answer) {
-        taskArray.splice(i, 1)
-        console.log('Задача удалена');
-      } else {
-        console.log('Задача оставлена');
-      }
-    } else {
-      taskArray.splice(i, 1)
-      console.log('Задача удалена');
-    }
-  }
+  taskArray.length = 0;
+  console.log('Все задачи удалены');
 }
-
 // clearTasks(taskArray)
-
-// console.log(taskArray)
-
+console.log(taskArray)
 
 
 
@@ -87,7 +75,7 @@ function getTaskDescriptions() {
 
 // 2
 function getLongTasks() {
-  return taskArray.filter(task => task.title.length > 10)
+  return taskArray.filter(task => task.title.length > 10 || task.description.length > 10)
 }
 // console.log('длина title более 10 символов:', getLongTasks())
 // console.log(taskArray)
@@ -96,15 +84,25 @@ function getLongTasks() {
 // 3
 function getTasksByDateRange(startDate, endDate, isCompleted = false) {
   return taskArray.filter(function (task) {
-    // console.log(task.createdDate)
+    const createdDate = task.createdDate
+    const completedDate = task.completedDate
 
-    if (task.isCompleted === true) {
-      return task
-    }
+    const isCreatedInRange = (createdDate >= startDate && createdDate <= endDate)
+
+    const isCompletedInRange = (completedDate !== null && completedDate >= startDate && completedDate <= endDate)
+
+    if (!isCreatedInRange && !isCompletedInRange) return false
+    if (task.isCompleted !== isCompleted) return false
+    return true
   })
+
 }
-// console.log(getTasksByDateRange())
-// console.log(taskArray)
+console.log(getTasksByDateRange(
+  new Date('2026-03-10T00:00:00Z'),
+  new Date('2026-03-25T23:59:59Z'),
+  // true
+))
+
 
 
 // 4
